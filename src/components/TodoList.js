@@ -39,12 +39,13 @@ export default function TodoList() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentTodos = filteredTodos.slice(indexOfFirstItem, indexOfLastItem);
 
-  
+   console.log('Filter',currentTodos.map((todo,index)=>[index,todo.title,todo.description]))
 
   return (
     < div className='container mx-auto' >
     <div className=' bg-slate-300 h-4/5 py-8 flex flex-col items-center justify-center   rounded-md'>
     <div className='text-5xl font-bold self-center'>TaskTracker</div>
+    <div className='m-3  text-xl font-bold w-2/5 text-center'>Welcome to our Todo List app! Our app allows you to easily manage your daily tasks.</div>
     <div className='mt-3 '> <PopupContainer action='ADD' /></div>
     </div>
     <div className='w-full h-20 mt-10 md:flex md:justify-between md:flex-wrap md:gap-1'>
@@ -59,7 +60,7 @@ export default function TodoList() {
 </div>
    <div className= ' w-full mt-32 md:mt-10 text-center mb-10 '> <h3>TODO LIST</h3></div>
    <div style={{borderColor:'blue',borderWidth:'2px',borderRadius:'5px'}} className='mb-10 flex flex-col'>
-    <div className= ' w-full md:mt-4  flex  items-center justify-start content-center gap-x-4 gap-y-3 flex-wrap p-10 ' >
+    <div className= ' w-full md:mt-4  flex  items-center justify-center content-center gap-x-4 gap-y-3 flex-wrap p-10 ' >
            {currentTodos.length>0 ? (
   currentTodos.map((task, index) => (
     <Card
@@ -71,11 +72,11 @@ export default function TodoList() {
       <CardTitle tag="h5">{task.title}</CardTitle>
       <CardText>{task.description}</CardText>
       <Container className="flex justify-end gap-2">
-        <Button variant="outlined" startIcon={<DeleteIcon />} onClick={()=>dispatch(removeTodo(index))}>
+        <Button variant="outlined" startIcon={<DeleteIcon />} onClick={()=>dispatch(removeTodo(task.id))}>
           Delete
         </Button>
-        <PopupContainer action='EDIT' id={index}/>
-        <Switch   checked={task.completed} onClick={() => dispatch(toggleTodo(index))}/>
+        <PopupContainer action='EDIT' id={task.id}/>
+        <Switch   checked={task.completed} onClick={() => dispatch(toggleTodo(task.id))}/>
       </Container>
     </Card>
   ))

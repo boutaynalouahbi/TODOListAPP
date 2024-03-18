@@ -16,8 +16,7 @@ export default function SearchByTitle() {
         setSearchTerm(value);
         dispatch(updateSearchTerm(value));
       };
-    console.log(searchTerm);
-  return (
+   return (
     <Autocomplete
         freeSolo
         id="free-solo-2-demo"

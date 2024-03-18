@@ -22,15 +22,26 @@ export default function PopupContainer({action,id}) {
     }
     function handleClickADD() {
         toggle();
+        const newId = generateNewId(); 
+        console.log( "MyId",newId);
         console.log(taskName)
-        const newTask={title:taskName.trim(),description:description.trim(),completed:false}
+        const newTask={id:newId,title:taskName.trim(),description:description.trim(),completed:false}
         dispatch(addTodo(newTask))
         //localStorage.setItem('Tasks',JSON.stringify([...tasks,newTask]));
         setTaskName('')
         setDescription('')
     }
+    function generateNewId() {
+      const tasksFromLocalStorage = JSON.parse(localStorage.getItem('Tasks'));
+      if (tasksFromLocalStorage && tasksFromLocalStorage.length > 0) {
+        const lastTask = tasksFromLocalStorage[tasksFromLocalStorage.length - 1];
+        return lastTask.id + 1;
+      } else {
+        return 1;
+      }
+    }
     function handleToggle() {
-        const currentTask = tasks.find((task, index) => index === id);
+        const currentTask = tasks.find((task) => task.id === id);
         console.log(currentTask);
         setTaskName(currentTask.title)
         setDescription(currentTask.description)

@@ -9,33 +9,34 @@ const initialState={
 const todoReducer=(state=initialState,action)=>{
     switch (action.type) {
         case ADD_TODO:
-            localStorage.setItem('Tasks',JSON.stringify([...state.todos,{title:action.payload.title,description:action.payload.description,completed:false}]));
+            console.log(action.payload);
+            localStorage.setItem('Tasks',JSON.stringify([...state.todos,{id:action.payload.id, title:action.payload.title,description:action.payload.description,completed:false}]));
             return {
-                ...state,todos:[...state.todos,{title:action.payload.title,description:action.payload.description,completed:false}]
+                ...state,todos:[...state.todos,{id:action.payload.id,title:action.payload.title,description:action.payload.description,completed:false}]
             }
         case TOGGLE_TODO:
-            localStorage.setItem('Tasks',JSON.stringify(state.todos.map((todo,index)=>index===action.payload?{...todo,completed:!todo.completed}:todo)));
+            localStorage.setItem('Tasks',JSON.stringify(state.todos.map((todo)=>todo.id===action.payload?{...todo,completed:!todo.completed}:todo)));
             return {
                 ...state,
-                todos:state.todos.map((todo,index)=>index===action.payload?{...todo,completed:!todo.completed}:todo)
+                todos:state.todos.map((todo)=>todo.id===action.payload?{...todo,completed:!todo.completed}:todo)
             }
         case REMOVE_TODO:
-            localStorage.setItem('Tasks',JSON.stringify(state.todos.filter((todo,index)=>index!==action.payload)));
+            localStorage.setItem('Tasks',JSON.stringify(state.todos.filter((todo)=>todo.id!==action.payload)));
 
             return {
                 ...state,
-                todos:state.todos.filter((todo,index)=>index!==action.payload)
+                todos:state.todos.filter((todo)=>todo.id!==action.payload)
             } 
         case UPDATE_TODO:
-            localStorage.setItem('Tasks',JSON.stringify(state.todos.map((todo,index)=>index===action.payload.id?{...todo,title:action.payload.updatedTask.title,description:action.payload.updatedTask.description}:todo)));
+            localStorage.setItem('Tasks',JSON.stringify(state.todos.map((todo)=>todo.id===action.payload.id?{...todo,title:action.payload.updatedTask.title,description:action.payload.updatedTask.description}:todo)));
             return {
                 ...state,
-                todos:state.todos.map((todo,index)=>index===action.payload.id?{...todo,title:action.payload.updatedTask.title,description:action.payload.updatedTask.description}:todo)
+                todos:state.todos.map((todo)=>todo.id===action.payload.id?{...todo,title:action.payload.updatedTask.title,description:action.payload.updatedTask.description}:todo)
             }
         case MARK_COMPLETED:
             return {
                 ...state,
-                todos:state.todos.map((todo,index)=>index===action.payload?{...todo,completed:true}:todo)
+                todos:state.todos.map((todo)=>todo.id===action.payload?{...todo,completed:true}:todo)
             }
         case FILTER_TODOS:
             return {
